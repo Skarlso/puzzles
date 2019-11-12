@@ -13,6 +13,7 @@ import (
 // so we can increase the count by one.
 // Once that happens, the recurisve call unvineds and continues with the next
 // character in the tail of the string until the search string is empty.
+// 58 / 63 test cases passed. on leetcode. Time limits are not passed.
 func searchString(s, search string) (count int) {
 	if len(search) == 1 {
 		if c := strings.Count(s, search); c > -1 {
