@@ -15,21 +15,21 @@ import (
 // character in the tail of the string until the search string is empty.
 func searchString(s, search string) (count int) {
 	if len(search) == 1 {
-		if strings.Contains(s, search) {
-			count++
+		if c := strings.Count(s, search); c > -1 {
+			count += c
 			return
 		}
 	}
 	for i := 0; i < len(s); i++ {
 		if s[i] == search[0] {
-			count += searchString(string(s[i:]), string(search[1:]))
+			count += searchString(string(s[i+1:]), string(search[1:]))
 		}
 	}
 	return
 }
 
 func main() {
-	s := "ADGGKJDBLKASDLFKSFKC"
-	search := "ABC"
+	s := "babgbag"
+	search := "bag"
 	fmt.Println(searchString(s, search))
 }
