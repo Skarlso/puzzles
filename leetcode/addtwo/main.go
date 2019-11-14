@@ -12,7 +12,6 @@ func getList(l *ListNode) []int {
 		digits = append(digits, n.Val)
 		n = n.Next
 	}
-	reverse(digits)
 	return digits
 }
 
@@ -81,7 +80,6 @@ func createLinkFromList(l []int) *ListNode {
  */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	v := addList(getList(l1), getList(l2))
-	// reverse at the end?
 	reverse(v)
 	return createLinkFromList(v)
 }
