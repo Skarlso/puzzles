@@ -23,7 +23,7 @@ func searchString(s, search string) (count int) {
 	}
 	for i := 0; i < len(s); i++ {
 		if s[i] == search[0] {
-			count += searchString(string(s[i+1:]), string(search[1:]))
+			count += searchString(s[i+1:], search[1:])
 		}
 	}
 	return
@@ -32,5 +32,21 @@ func searchString(s, search string) (count int) {
 func main() {
 	s := "babgbag"
 	search := "bag"
-	fmt.Println(searchString(s, search))
+	// fmt.Println(s, search)
+	count := 0
+	for i := 0; i < len(s); i++ {
+		sch := search
+		s2 := s
+		if s2[i] == sch[0] {
+			sch = sch[1:]
+			s2 = s2[i+1:]
+			for len(sch) > 1 {
+
+			}
+			// for j := 0; j < len(sch); j++ {
+			// 	if
+			// }
+		}
+	}
+	fmt.Println(count)
 }
