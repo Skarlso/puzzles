@@ -17,14 +17,19 @@ func getList(l *ListNode) []int {
 
 func addList(l1, l2 []int) []int {
 	var (
-		result     []int
-		remains    int
-		finalIndex int
+		result  []int
+		remains int
+		i       int
 	)
-	for i := 0; i < len(l1); i++ {
+	for {
+		if i >= len(l1) && i >= len(l2) {
+			break
+		}
 		var sum int
 		if i >= len(l2) {
 			sum = l1[i] + remains
+		} else if i >= len(l1) {
+			sum = l2[i] + remains
 		} else {
 			sum = (l1[i] + l2[i]) + remains
 		}
@@ -34,18 +39,7 @@ func addList(l1, l2 []int) []int {
 			remains = 1
 		}
 		result = append(result, sum)
-		finalIndex = i
-	}
-	if finalIndex < len(l2)-1 {
-		for i := finalIndex + 1; i < len(l2); i++ {
-			sum := l2[i] + remains
-			remains = sum / 10
-			if remains > 0 {
-				sum %= 10
-				remains = 1
-			}
-			result = append(result, sum)
-		}
+		i++
 	}
 	if remains != 0 {
 		result = append(result, remains)
@@ -80,6 +74,5 @@ func createLinkFromList(l []int) *ListNode {
  * Memory Usage: 6.1 MB, less than 7.32% of Go online submissions for Add Two Numbers.
  */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	v := addList(getList(l1), getList(l2))
-	return createLinkFromList(v)
+	return createLinkFromList(addList(getList(l1), getList(l2)))
 }
