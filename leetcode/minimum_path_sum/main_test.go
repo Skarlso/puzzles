@@ -30,3 +30,15 @@ func Test2Basic(t *testing.T) {
 	got := minPathSum(grid)
 	assert.Equal(t, expect, got, "minimum should have been 3")
 }
+
+func Test3Basic(t *testing.T) {
+	/*
+		1, 2, 5
+		3, 2, 1
+	*/
+	grid := [][]int{{1, 2, 5}, {3, 2, 1}}
+	expect := 6
+
+	got := minPathSum(grid)
+	assert.Equal(t, expect, got, "minimum should have been 6")
+}
