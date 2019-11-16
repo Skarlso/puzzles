@@ -109,7 +109,7 @@ func calculateMinimumHP(dungeon [][]int) int {
 		current = cameFrom[current]
 	}
 	p = append(p, start.c)
-	sum += dungeon[start.c.y][start.c.x]
+	//sum += dungeon[start.c.y][start.c.x]
 	fmt.Println(p, sum)
 	return 0
 }
