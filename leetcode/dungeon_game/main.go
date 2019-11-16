@@ -24,7 +24,7 @@ type ppQ []point
 func (pq ppQ) Len() int { return len(pq) }
 func (pq ppQ) Less(i, j int) bool {
 	// implement the cost logic here?
-	return pq[i].priority > pq[j].priority
+	return pq[i].priority < pq[j].priority
 }
 
 func (pq ppQ) Swap(i, j int) {
@@ -48,14 +48,6 @@ func (pq *ppQ) Pop() interface{} {
 	*pq = old[0 : n-1]
 	return item
 }
-
-//// update modifies the priority and value of an Item in the queue.
-//func (pq *ppQ) update(item *point, x, y int, p int) {
-//	item.x = x
-//	item.y = y
-//	item.priority = p
-//	heap.Fix(pq, item.index)
-//}
 
 func move(grid [][]int, p point) []point {
 	ret := make([]point, 0)
@@ -87,20 +79,19 @@ func calculateMinimumHP(dungeon [][]int) int {
 	path := make(ppQ, 1)
 	path[0] = start
 	heap.Init(&path)
-	//allPaths := make([][]point, 0)
 	for path.Len() > 0 {
 		current := path.Pop().(point)
 		knightHP += dungeon[current.c.y][current.c.x]
 		if current.c == goal {
 			fmt.Printf("cost so far: %d\n", costSoFar[current.c])
 			continue
+			//break
 		}
 		// move needs to add in paths so it is tracked what route has been taken so far.
 		paths := move(dungeon, current)
 		for _, next := range paths {
 			newCost := costSoFar[current.c] + dungeon[next.c.y][next.c.x]
-			fmt.Println(newCost)
-			if _, ok := cameFrom[next.c]; !ok || newCost < costSoFar[current.c] {
+			if _, ok := cameFrom[next.c]; !ok || newCost < costSoFar[next.c] {
 				cameFrom[next.c] = current.c
 				next.priority = newCost
 				costSoFar[next.c] = newCost
