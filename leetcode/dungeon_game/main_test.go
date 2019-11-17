@@ -30,3 +30,16 @@ func Test3Basic(t *testing.T) {
 	})
 	assert.Equal(t, 4, minLife, "if the knights life begins with -number he immediately dies")
 }
+
+func BenchmarkBasic(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		minLife := calculateMinimumHP([][]int{
+			{1, -3, 2},
+			{0, -1, 2},
+			{0, 0, -2},
+		})
+		if minLife != 1 {
+			b.Fatal("not equal: ", minLife)
+		}
+	}
+}
