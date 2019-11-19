@@ -13,5 +13,5 @@ func TestBasic(t *testing.T) {
 
 func Test2Basic(t *testing.T) {
 	s := removeDuplicates("deeedbbcccbdaa", 3)
-	assert.Equal(t, "", s, "should have removed everything")
+	assert.Equal(t, "aa", s, "should have removed everything")
 }
