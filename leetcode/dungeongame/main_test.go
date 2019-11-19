@@ -1,4 +1,4 @@
-package dungeon_game
+package dungeongame
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package dungeon_game
+package dungeongame
 
 import (
 	"fmt"
@@ -18,13 +18,13 @@ func (c coord) String() string {
 	return fmt.Sprintf("x: %d; y: %d\n", c.x, c.y)
 }
 
-func move(grid [][]int, p point) []point {
+func move(lx, ly int, p point) []point {
 	ret := make([]point, 0)
-	if p.c.x+1 < len(grid[p.c.y]) {
+	if p.c.x+1 < lx {
 		c := coord{x: p.c.x + 1, y: p.c.y}
 		ret = append(ret, point{c: c, moveSequence: p.moveSequence + "R"})
 	}
-	if p.c.y+1 < len(grid) {
+	if p.c.y+1 < ly {
 		c := coord{x: p.c.x, y: p.c.y + 1}
 		ret = append(ret, point{c: c, moveSequence: p.moveSequence + "D"})
 	}
@@ -43,7 +43,7 @@ func findAllPath(dungeon [][]int) []string {
 		if current.c == goal {
 			allBytePath = append(allBytePath, current.moveSequence)
 		}
-		paths := move(dungeon, current)
+		paths := move(len(dungeon[current.c.y]), len(dungeon), current)
 		path = append(path, paths...)
 	}
 	return allBytePath
