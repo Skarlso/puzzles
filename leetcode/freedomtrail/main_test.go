@@ -26,3 +26,12 @@ func Test2Basic(t *testing.T) {
 		t.Fatal("should be 19. was: ", s)
 	}
 }
+
+func BenchmarkBasic(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		s := findRotateSteps("nyngl", "yyynnnnnnlllggg")
+		if s != 19 {
+			b.Fatal("should be 19. was: ", s)
+		}
+	}
+}

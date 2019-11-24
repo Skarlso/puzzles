@@ -4,45 +4,90 @@ import (
 	"math"
 )
 
+// Integer[][] dp = null;
+// public int findRotateSteps(String ring, String key) {
+// 	dp = new Integer[ring.length()][key.length()];
+// 	return steps(0, ring, 0, key);
+// }
+// private int steps(int i, String ring, int j, String key){
+// 	if(j == key.length())
+// 		return 0;
+// 	if(dp[i][j] != null) return dp[i][j];
+// 	dp[i][j] = Integer.MAX_VALUE;
+// 	char ch = key.charAt(j);
+// 	for(int k=0; k < ring.length(); k++){
+// 		int tmp = (k+i) % ring.length();
+// 		if(ring.charAt(tmp) == ch)
+// 			dp[i][j] = Math.min(dp[i][j], 1 + Math.min(k, ring.length()-k) + steps(tmp, ring, j+1, key));
+// 	}
+// 	return dp[i][j];
+// }
+var dp [][]int
+
 func findRotateSteps(ring string, key string) int {
-	m, n := len(ring), len(key)
-	dp := make([][]int, n+1)
-	for i := 0; i < n+1; i++ {
-		dp[i] = make([]int, m)
+	dp = make([][]int, len(ring))
+	for i := 0; i < len(dp); i++ {
+		dp[i] = make([]int, len(key))
 	}
 
-	stack := make([]int, 0)
-	for i := 0; i < m; i++ {
-		if key[len(key)-1] == ring[i] {
-			stack = append(stack, i)
-		}
-	}
-
-	for i := n - 1; i >= 0; i-- {
-		tmp := make([]int, 0)
-		for j := 0; j < m; j++ {
-			if (i > 0 && key[i-1] == ring[j]) || (i == j && j == 0) {
-				dp[i][j] = m * n
-				for _, k := range stack {
-					dp[i][j] = min(dp[i][j], dp[i+1][k]+min(abs(k-j), m-abs(k-j)))
-				}
-				tmp = append(tmp, j)
-			}
-		}
-		stack = tmp
-	}
-
-	return dp[0][0] + n
+	return sum(0, 0, ring, key)
 }
 
-func min(a ...int) int {
-	min := math.MaxInt64
-	for _, x := range a {
-		if x < min {
-			min = x
+func sum(i, j int, ring, key string) int {
+	if j == len(key) {
+		return 0
+	}
+	if dp[i][j] != 0 {
+		return dp[i][j]
+	}
+	dp[i][j] = math.MaxInt64
+	c := key[j]
+	for k := 0; k < len(ring); k++ {
+		tmp := (k + i) % len(ring)
+		if ring[tmp] == c {
+			dp[i][j] = min(dp[i][j], 1+min(k, len(ring)-k)+sum(tmp, j+1, ring, key))
 		}
 	}
-	return min
+
+	return dp[i][j]
+}
+
+// func findRotateSteps(ring string, key string) int {
+// 	m, n := len(ring), len(key)
+// 	dp := make([][]int, n+1)
+// 	for i := 0; i < n+1; i++ {
+// 		dp[i] = make([]int, m)
+// 	}
+
+// 	stack := make([]int, 0)
+// 	for i := 0; i < m; i++ {
+// 		if key[len(key)-1] == ring[i] {
+// 			stack = append(stack, i)
+// 		}
+// 	}
+
+// 	for i := n - 1; i >= 0; i-- {
+// 		tmp := make([]int, 0)
+// 		for j := 0; j < m; j++ {
+// 			if (i > 0 && key[i-1] == ring[j]) || (i == j && j == 0) {
+// 				dp[i][j] = m * n
+// 				for _, k := range stack {
+// 					dp[i][j] = min(dp[i][j], dp[i+1][k]+min(abs(k-j), m-abs(k-j)))
+// 				}
+// 				tmp = append(tmp, j)
+// 			}
+// 		}
+// 		stack = tmp
+// 	}
+
+// 	return dp[0][0] + n
+// }
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 func abs(a int) int {
