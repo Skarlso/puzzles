@@ -20,6 +20,7 @@ func TestMatch_1(t *testing.T) {
 		{s: "aaa", pattern: "aaaa", want: false},
 		{s: "a", pattern: "ab*", want: true},
 		{s: "bbbba", pattern: ".*a*a", want: true},
+		{s: "a", pattern: ".*a*a*b*c*d*s*", want: true},
 	}
 	for _, ts := range tests {
 		got := isMatch(ts.s, ts.pattern)

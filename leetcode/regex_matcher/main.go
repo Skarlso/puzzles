@@ -1,8 +1,7 @@
 package main
 
 type parser struct {
-	token string
-	star  bool
+	stars []string
 	dot   bool
 	// index string
 	is int
@@ -57,22 +56,37 @@ func (p *parser) scan() bool {
 		// look ahead for tokens if we haven't reached the end of the string
 		// atm the only token we care to look ahead is * because
 		// that's the only token that needs a classifier.
-		if p.ip+1 < len(p.pattern) {
-			switch p.pattern[p.ip+1] {
-			case '*':
-				// if star is on, we don't move the pattern index
-				// and just keep matching the current character
-				// until there is no match. in which case we increase the
-				// pattern index by two.
-				p.star = true
 
-				// check if we have anything after * so .* known until when to match
-				// only set next if current is .
-				if p.ip+2 < len(p.pattern) && pcurr == '.' {
-					p.next = p.pattern[p.ip+2]
+		// New way. Scan ahead as far as possible and save all
+		// the x* matchers into a list until we find something else.
+		for {
+			offset := 1
+			// scan ahead while we find patterns and safe them.
+			if p.ip+offset < len(p.pattern) {
+				if p.pattern[p.ip+offset] == '*' {
+					// maybe also store the stopper for this greedy match?
+					// struct for star match?
+					c := p.pattern[p.ip+offset]
+					p.stars = append(p.stars, string(c))
 				}
 			}
 		}
+		// if p.ip+1 < len(p.pattern) {
+		// 	switch p.pattern[p.ip+1] {
+		// 	case '*':
+		// 		// if star is on, we don't move the pattern index
+		// 		// and just keep matching the current character
+		// 		// until there is no match. in which case we increase the
+		// 		// pattern index by two.
+		// 		p.star = true
+
+		// 		// check if we have anything after * so .* known until when to match
+		// 		// only set next if current is .
+		// 		if p.ip+2 < len(p.pattern) && pcurr == '.' {
+		// 			p.next = p.pattern[p.ip+2]
+		// 		}
+		// 	}
+		// }
 
 		switch pcurr {
 		case '.':
